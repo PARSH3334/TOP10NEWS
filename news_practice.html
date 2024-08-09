@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upadated_News</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container{
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        }
+        h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li{
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #080808;
+    }
+    h2 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+    h3{
+         
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    
+    }
+    p {
+        color: #555;
+    }
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TODAYS TOP NEWS</h1>
+        <ul id="news-list">
+
+        </ul>
+        <button id="first_delete">Delete 1 article</button>
+    </div>
+     
+    <script>
+        fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftechcrunch.com%2Ffeed%2F')
+        .then(response => response.json())
+        .then(data => {
+            const newsList=document.getElementById('news-list');
+            data.items.forEach(item => {
+                const li=document.createElement('li');
+                const h2=document.createElement('h2');
+                const a=document.createElement('a');
+                const h3=document.createElement('h3');
+                h3.textContent=item.author;
+                h2.textContent=item.title;
+                a.href=item.link;
+                a.textContent="ReadMore";
+                a.target="_blank";
+                li.appendChild(h2);
+                li.appendChild(document.createTextNode(item.description));
+                li.appendChild(a);
+                li.appendChild(h3);
+                newsList.appendChild(li);
+                
+            });
+
+            document.getElementById("first_delete").addEventListener('click',()=>{
+                if(newsList.firstChild){
+                    newsList.removeChild(newsList.firstChild);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
